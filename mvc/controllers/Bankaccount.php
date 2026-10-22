@@ -52,8 +52,8 @@ class Bankaccount extends Admin_Controller
             ),
             array(
                 'field' => 'bankaccountopeningbalance',
-                'label' => $this->lang->line("bankaccountopeningbalance"),
-                'rules' => 'trim|xss_clean|max_length[40]'
+                'label' => $this->lang->line("bankaccount_openingbalance"),
+                'rules' => 'trim|xss_clean|max_length[40]|numeric'
             ),
             array(
                 'field' => 'bankaccountphone',

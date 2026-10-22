@@ -42,7 +42,7 @@
                             <?=$this->lang->line("bankaccount_openingbalance")?>
                         </label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="bankaccountopeningbalance" name="bankaccountopeningbalance" value="<?=set_value('bankaccountopeningbalance', $bankaccount->bankaccountopeningbalance)?>" >
+                            <input type="number" step="0.01" inputmode="decimal" placeholder="0.00" class="form-control" id="bankaccountopeningbalance" name="bankaccountopeningbalance" value="<?=set_value('bankaccountopeningbalance', $bankaccount->bankaccountopeningbalance)?>" >
                         </div>
                         <span class="col-sm-4 control-label">
                             <?php echo form_error('bankaccountopeningbalance'); ?>

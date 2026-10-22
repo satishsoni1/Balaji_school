@@ -1,577 +1,229 @@
-<?php include("inc/head.php") ?>
-<?php include("inc/header.php") ?>
-<?php include("inc/nav.php") ?>
-<?php include("inc/slidebar.php") ?>
-<!--Start Banner Area-->
-<div class="banner-area pb-100">
-    <div class="container-fluid">
-        <div class="hero-slider owl-carousel owl-theme" data-slider-id="1">
-            <div class="slider-item banner-bg-1">
-                <div class="slider-content">
-                    <h1>Explore Your Potential & Talents In Shri Balaji School</h1>
-                    <p>Shri Balaji School is committed to providing world-class education that will enable our students to succeed in their chosen fields. We offer a wide range of programs that cater to the unique needs and interests of our students</p>
-                    <a href="#" class="default-btn btn">Start a Journey <i class="flaticon-next"></i></a>
-                </div>
+<?php
+$activePage = 'home';
+include("inc/head.php");
+include("inc/header.php");
+include("inc/nav.php");
+?>
+<main id="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-roledescription="carousel" aria-label="Highlights" data-hero>
+        <div class="hero__slides">
+            <?php foreach ($heroSlides as $i => $slide) { ?>
+                <article class="hero__slide<?= $i === 0 ? ' is-active' : '' ?>" aria-roledescription="slide" aria-label="<?= $i + 1 ?> of <?= count($heroSlides) ?>"<?= $i === 0 ? '' : ' aria-hidden="true"' ?> data-hero-slide>
+                    <img class="hero__img" src="<?= e($slide['image']) ?>" alt="" <?= $i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
+                    <div class="container hero__content">
+                        <span class="eyebrow eyebrow--light"><i class="ri-government-line" aria-hidden="true"></i> Est. <?= e($school['founded']) ?> &middot; <?= e($school['place']) ?></span>
+                        <?php if ($i === 0) { ?>
+                            <h1 class="hero__title"><?= e($slide['title']) ?></h1>
+                        <?php } else { ?>
+                            <h2 class="hero__title"><?= e($slide['title']) ?></h2>
+                        <?php } ?>
+                        <p class="hero__text"><?= e($slide['text']) ?></p>
+                        <div class="hero__actions">
+                            <a class="btn btn--gold btn--lg" href="contact-us.php">Start your journey <i class="ri-arrow-right-line" aria-hidden="true"></i></a>
+                            <a class="btn btn--glass btn--lg" href="<?= e($school['prospectus']) ?>" target="_blank" rel="noopener"><i class="ri-file-download-line" aria-hidden="true"></i> Prospectus</a>
+                        </div>
+                    </div>
+                </article>
+            <?php } ?>
+        </div>
+
+        <div class="container hero__controls">
+            <div class="hero__dots" role="tablist" aria-label="Choose slide">
+                <?php foreach ($heroSlides as $i => $slide) { ?>
+                    <button class="hero__dot<?= $i === 0 ? ' is-active' : '' ?>" type="button" role="tab" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>" data-hero-dot="<?= $i ?>">
+                        <span class="hero__dot-bar"><span></span></span>
+                        <span class="hero__dot-label"><?= e($slide['tag']) ?></span>
+                    </button>
+                <?php } ?>
             </div>
-            <div class="slider-item banner-bg-2">
-                <div class="slider-content">
-                    <h1>Explore Your Creativity & Talent With Shri Balaji School</h1>
-                    <p>We offer a range of courses in the arts and sciences that are designed to help you reach your potential. Our campus is located in the heart of the city, so you'll have access to all the resources and amenities you need to succeed.
-                        Come explore what Shri Balaji School has to offer!</p>
-                    <a href="#" class="default-btn btn">Start a Journey <i class="flaticon-next"></i></a>
-                </div>
-            </div>
-            <div class="slider-item banner-bg-3">
-                <div class="slider-content">
-                    <h1>Start Your Beautiful & Bright Future From Here</h1>
-                    <p> Shri Balaji School is the perfect place to start your academic journey. With our top-tier faculties, ample resources and support, your success is guaranteed!</p>
-                    <a href="#" class="default-btn btn">Start a Journey <i class="flaticon-next"></i></a>
-                </div>
+            <div class="hero__arrows">
+                <button class="icon-btn icon-btn--glass" type="button" aria-label="Previous slide" data-hero-prev><i class="ri-arrow-left-line" aria-hidden="true"></i></button>
+                <button class="icon-btn icon-btn--glass" type="button" aria-label="Next slide" data-hero-next><i class="ri-arrow-right-line" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div class="owl-thumbs" data-slider-id="1">
-            <button class="owl-thumb-item">
-                <img src="assets/images/banner/1.JPG" alt="Images">
-            </button>
+    </section>
 
-            <button class="owl-thumb-item">
-                <img src="assets/images/banner/2.jpg" alt="Images">
-            </button>
-
-            <button class="owl-thumb-item">
-                <img src="assets/images/banner/3.jpeg" alt="Images">
-            </button>
+    <!-- Quick facts strip -->
+    <section class="facts" aria-label="Quick facts">
+        <div class="container facts__grid">
+            <div class="fact"><i class="ri-government-line" aria-hidden="true"></i><div><strong>Nursery to 10th</strong><span>Full English medium</span></div></div>
+            <div class="fact"><i class="ri-shield-check-line" aria-hidden="true"></i><div><strong>Government approved</strong><span>Recognised since 2004</span></div></div>
+            <div class="fact"><i class="ri-computer-line" aria-hidden="true"></i><div><strong>Free computer lab</strong><span>&amp; digital classroom</span></div></div>
+            <div class="fact"><i class="ri-football-line" aria-hidden="true"></i><div><strong>Spacious playground</strong><span>State-level athletes</span></div></div>
         </div>
-    </div>
-</div>
-<!--End Banner Area-->
+    </section>
 
-<!--Start Academic Area-->
-<div class="academic-area pt-100 pb-70">
+    <!-- Institutes -->
+    <section class="section" id="institutes">
         <div class="container">
-            <div class="section-title">
-                <h3>Government Approved Institutes Run by Shri Balaji Yuvak Krida Mandal, Wadegaon.</h3>
+            <div class="section-head section-head--center reveal">
+                <span class="eyebrow">Our institutes</span>
+                <h2 class="section-title">Government approved institutes run by <?= e($school['trust']) ?></h2>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                    <div class="single-academics-card">
-                        <div class="academic-top-content">
-                            <i class="flaticon-college-graduation"></i>
-                            <a href="#">
-                                <h3>English Primary & Secondary School</h3>
-                            </a>
+            <div class="cards-3">
+                <?php foreach ($institutes as $i => $inst) { ?>
+                    <article class="inst-card reveal" style="--delay: <?= $i * 90 ?>ms">
+                        <div class="inst-card__icon"><i class="<?= e($inst['icon']) ?>" aria-hidden="true"></i></div>
+                        <h3><?= e($inst['title']) ?></h3>
+                        <p><?= e($inst['name']) ?></p>
+                        <span class="badge"><i class="ri-award-line" aria-hidden="true"></i> Recognition &mdash; <?= e($inst['year']) ?></span>
+                    </article>
+                <?php } ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Campus -->
+    <section class="section section--tint" id="about">
+        <div class="container about">
+            <div class="about__media reveal">
+                <img src="assets/images/opt/campus.jpg" alt="Shri Balaji English Primary & Secondary School building, Wadegaon" loading="lazy">
+                <div class="about__badge">
+                    <strong><?= e($school['founded']) ?></strong>
+                    <span>Founded by<br><?= e($school['trust']) ?></span>
+                </div>
+            </div>
+            <div class="about__body reveal">
+                <span class="eyebrow">Campus information</span>
+                <h2 class="section-title">A caring, child-centred English medium school for rural Wadegaon</h2>
+                <p class="lead"><?= e($school['about']) ?></p>
+
+                <ul class="facility-grid">
+                    <?php foreach ($facilities as $f) { ?>
+                        <li><span class="facility-grid__icon"><i class="<?= e($f['icon']) ?>" aria-hidden="true"></i></span><?= e($f['text']) ?></li>
+                    <?php } ?>
+                </ul>
+
+                <dl class="stats">
+                    <?php foreach ($stats as $s) { ?>
+                        <div class="stat">
+                            <dt><?= e($s['label']) ?></dt>
+                            <dd><span data-count="<?= (int) $s['value'] ?>"><?= (int) $s['value'] ?></span><?= e($s['suffix']) ?></dd>
                         </div>
-                        <p>Shri Balaji English Primary & Secondary School, Wadegaon Recognition — 2004
-                        </p>
-                        <!-- <a href="academics-details.html" class="read-more-btn">Undergraduate Education<i class="flaticon-next"></i></a> -->
-                    </div>
+                    <?php } ?>
+                </dl>
+
+                <a class="btn btn--primary btn--lg" href="contact-us.php">Start your application <i class="ri-arrow-right-line" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="section" id="achievements">
+        <div class="container">
+            <div class="section-head section-head--split reveal">
+                <div>
+                    <span class="eyebrow">Sports Bharari</span>
+                    <h2 class="section-title">Our champions on the field</h2>
+                    <p class="muted">Students who represented the school at state and division level competitions.</p>
                 </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400" data-aos-once="true">
-                    <div class="single-academics-card">
-                        <div class="academic-top-content">
-                            <i class="flaticon-graduation"></i>
-                            <a href="#">
-                                <h3>Marathi Primary & Secondary School</h3>
-                            </a>
+                <?php $years = array_values(array_unique(array_column($achievements['division'], 'year'))); ?>
+                <div class="chips" role="group" aria-label="Filter by year" data-filter-group>
+                    <button class="chip is-active" type="button" aria-pressed="true" data-filter="all">All years</button>
+                    <?php foreach ($years as $y) { ?>
+                        <button class="chip" type="button" aria-pressed="false" data-filter="<?= e($y) ?>"><?= e($y) ?></button>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <?php foreach ($achievements['state'] as $a) { ?>
+                <article class="champion reveal">
+                    <div class="champion__icon"><i class="ri-trophy-line" aria-hidden="true"></i></div>
+                    <div class="champion__body">
+                        <span class="badge badge--gold">State level</span>
+                        <h3><?= e($a['name']) ?></h3>
+                        <p><?= e($a['sport']) ?> &middot; <?= e($a['year']) ?></p>
+                    </div>
+                </article>
+            <?php } ?>
+
+            <h3 class="subhead reveal">Division level</h3>
+            <ul class="achieve-grid" data-filter-list>
+                <?php foreach ($achievements['division'] as $a) { ?>
+                    <li class="achieve reveal" data-year="<?= e($a['year']) ?>">
+                        <span class="achieve__icon"><i class="ri-medal-line" aria-hidden="true"></i></span>
+                        <div>
+                            <strong><?= e($a['name']) ?></strong>
+                            <span><?= e($a['sport']) ?></span>
                         </div>
-                        <p>Late. Ramraoji Gawande Vidyalaya, Umra Recognition — 1995</p>
-                        <!-- <a href="#" class="read-more-btn">Graduate Education<i class="flaticon-next"></i></a> -->
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="600" data-aos-once="true">
-                    <div class="single-academics-card">
-                        <div class="academic-top-content">
-                            <i class="flaticon-writing-tool"></i>
-                            <a href="#">
-                                <h3>Library</h3>
-                            </a>
+                        <span class="achieve__year"><?= e($a['year']) ?></span>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Leadership -->
+    <section class="section section--tint" id="leadership">
+        <div class="container">
+            <div class="section-head section-head--center reveal">
+                <span class="eyebrow">Leadership</span>
+                <h2 class="section-title">Principal &amp; Supervisor</h2>
+            </div>
+            <div class="cards-3">
+                <?php foreach ($leaders as $i => $p) { ?>
+                    <article class="leader reveal" style="--delay: <?= $i * 90 ?>ms">
+                        <div class="leader__photo"><img src="<?= e($p['photo']) ?>" alt="<?= e($p['name']) ?>" loading="lazy"></div>
+                        <div class="leader__body">
+                            <span class="badge"><?= e($p['role']) ?></span>
+                            <h3><?= e($p['name']) ?></h3>
+                            <p class="muted"><?= e($p['qual']) ?> &middot; Higher Primary &amp; Secondary</p>
+                            <a class="leader__call" href="tel:+91<?= e($p['phone']) ?>"><i class="ri-phone-line" aria-hidden="true"></i> <?= e($p['phone']) ?></a>
                         </div>
-                        <p>Shri. Balaji Public Library, Wadegaon (Grade-B) Recognition — 1991</p>
-                        <!-- <a href="academics-details.html" class="read-more-btn">Lifelong learning<i class="flaticon-next"></i></a> -->
-                    </div>
-                </div>
+                    </article>
+                <?php } ?>
             </div>
-        </div>
-    </div>
-  
-<!--End Academic Area-->
 
-<!--Start Campus Information-->
-<div class="campus-information-area pb-70">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-aos="fade-right" data-aos-easing="ease-in-sine" data-aos-duration="1300" data-aos-once="true">
-                <div class="campus-content pr-20">
-                    <div class="campus-title">
-                        <h2>Campus Information</h2>
-                        <p>
-                            ShriBalaji English Primary & Secondary School, Wadegaon is directed by Shri Balaji Yuvak Krida Mandal Wadegaon was established in 1998 .Our school offers an inquiry based , child centered and academically rigorous curriculum that address the perfect English medium education with intellectual , social and emotional needs of each child in rural areas to make them well cultured . </p>
-                    </div>
-                    <div class="list">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6">
-                                <ul>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p> Nursery to 10th Class Full English Medium.</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Spacious Building with 30 rooms.</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Free Computer Lab</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Digital room facility</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <ul>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Adequate play materials</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Spacious Playground</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Facility to admit students as per RTE Act. (25%)</p>
-                                    </li>
-                                    <li>
-                                        <i class="ri-check-fill"></i>
-                                        <p>Trained, well Educated and Experienced Teachers.</p>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="section-head section-head--center reveal mt-xl">
+                <span class="eyebrow">Our management</span>
+                <h2 class="section-title"><?= e($school['trust']) ?></h2>
+            </div>
+            <ul class="people">
+                <?php foreach ($management as $i => $m) { ?>
+                    <li class="person reveal" style="--delay: <?= ($i % 5) * 60 ?>ms">
+                        <div class="person__photo"><img src="<?= e($m['photo']) ?>" alt="<?= e($m['name']) ?>" loading="lazy"></div>
+                        <strong><?= e($m['name']) ?></strong>
+                        <span><?= e($m['role']) ?></span>
+                    </li>
+                <?php } ?>
+            </ul>
+
+            <div class="section-head section-head--center reveal mt-xl">
+                <span class="eyebrow">Office staff</span>
+                <h2 class="section-title">We're here to help</h2>
+            </div>
+            <ul class="staff">
+                <?php foreach ($officeStaff as $s) { ?>
+                    <li class="staff__item reveal">
+                        <span class="avatar" aria-hidden="true"><?= e(initials($s['name'])) ?></span>
+                        <div>
+                            <strong><?= e($s['name']) ?></strong>
+                            <span>Higher Primary &amp; Secondary</span>
                         </div>
-                    </div>
-                    <div class="counter">
-                        <div class="row">
-                            <div class="col-lg-4 col-4">
-                                <div class="counter-card">
-                                    <h1>
-                                        <span class="odometer" data-count="19">00</span>
-                                        <span class="target">+</span>
-                                    </h1>
-                                    <p>Years Of Experience</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-4">
-                                <div class="counter-card">
-                                    <h1>
-                                        <span class="odometer" data-count="2">00</span>
-                                        <span class="target heading-color">k</span><span class="target">+</span>
-                                    </h1>
-                                    <p>Students</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-4">
-                                <div class="counter-card">
-                                    <h1>
-                                        <span class="odometer" data-count="50">00</span>
-                                        <span class="target">+</span>
-                                    </h1>
-                                    <p>Teacher</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#" class="default-btn btn">Start your application<i class="flaticon-next"></i></a>
-                </div>
+                        <a class="icon-btn" href="tel:+91<?= e($s['phone']) ?>" aria-label="Call <?= e($s['name']) ?> on <?= e($s['phone']) ?>" title="<?= e($s['phone']) ?>"><i class="ri-phone-line" aria-hidden="true"></i></a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container cta__inner reveal">
+            <div>
+                <h2>Admissions &amp; enquiries</h2>
+                <p>Visit our campus in <?= e($school['place']) ?> or reach the school office — we'd love to meet you.</p>
             </div>
-            <div class="col-lg-6" data-aos="fade-up" data-aos-easing="ease-in-sine" data-aos-duration="1300" data-aos-once="true">
-                <div class="campus-image pl-20">
-                    <img src="assets/images/banner/DSC_6938ok.jpg" alt="Image">
-                </div>
+            <div class="cta__actions">
+                <a class="btn btn--gold btn--lg" href="contact-us.php">Contact the office <i class="ri-arrow-right-line" aria-hidden="true"></i></a>
+                <a class="btn btn--glass btn--lg" href="tel:<?= e($contact['phones'][0]['tel']) ?>"><i class="ri-phone-line" aria-hidden="true"></i> <?= e($contact['phones'][0]['display']) ?></a>
             </div>
         </div>
-    </div>
-</div>
-<!--End Campus Information-->
+    </section>
 
-<!--Start Courses Area-->
-<div class="courses-area ptb-100 bg-f4f6f9">
-    <div class="container">
-        <div class="section-title">
-            <h2>Sports Bharari</h2>
-            <h3>State Level</h3>
-            <p>1) Pranav Ramesh Ingle 2022-2023 (Carrom)</p>
-            <h3>Division Level</h3>
-        </div>
-
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>1) Sakshi Gopal Sarap</td>
-                    <td> 2019-2020</td>
-                    <td>Shot Put</td>
-                </tr>
-
-                <tr>
-                    <td>2) Aishwarya Muralidhar Lokhande</td>
-                    <td> 2019-2020</td>
-                    <td>Rope Mallakhamb</td>
-                </tr>
-
-                <tr>
-                    <td>3) Om Pradip Kale</td>
-                    <td> 2019-2020</td>
-                    <td>Archery Indian</td>
-                </tr>
-                <tr>
-                    <td>4) Parth Sanjay Akhare</td>
-                    <td> 2022-2023</td>
-                    <td>Archery Indian</td>
-                </tr>
-                <tr>
-                    <td>5) Om Pradip Kale</td>
-                    <td> 2022-2023</td>
-                    <td>Archery Indian</td>
-                </tr>
-                <tr>
-                    <td>6) Ujwal Gajanan Ambhore</td>
-                    <td> 2022-2023</td>
-                    <td>Mallakhamba</td>
-                </tr>
-
-                <tr>
-                    <td>7) Vedant Prakash Shegokar</td>
-                    <td> 2022-2023</td>
-                    <td>Mallakhamba</td>
-                </tr>
-
-                <tr>
-                    <td>8) Achal Gajanan Ambhore</td>
-                    <td>2022-2023</td>
-                    <td>Mallakhamba</td>
-                </tr>
-
-                <tr>
-                    <td>9) Anjali Gajanan Huse</td>
-                    <td>2022-2023</td>
-                    <td>Rop Mallakhamb</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="students-stories-area pt-100 pb-70">
-    <div class="container">
-        <div class="section-title">
-            <h2>Our Management</h2>
-        </div>
-        
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="courses-left-content">
-                            <div class="row">
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; " src="assets/management/Vilas Warokar President.JPG" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Vilas Sukhdeo Warokar</h5>
-                                            <p>President</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain;" src="assets/management/Vilas Huse Vice President.JPG" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Vilas Tulshiram Huse</h5>
-                                            <p>Vice President</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; " src="assets/management/Bhaskar Kale Vice Prsedent.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Bhaskar Deorao Kale</h5>
-                                            <p>Vice President</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; " src="assets/management/Arun Potdukhe Secretory.JPG" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Arun Jagdeo Potdukhe</h5>
-                                            <p>Secretory</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; " src="assets/management/Viju Katkhde Member.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Vijay Shridhar Katkhede</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; "  src="assets/management/baburao Ajgar Member.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Baburao Bhagwan Ajgar</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; "  src="assets/management/3.png" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Baliram Gotiram Ghatol</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; "  src="assets/management/4.png" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Prakash Natthuji Kandarkar</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; "  src="assets/management/5.png" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Devanand Govindrao Katkhede</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="single-courses-card style4">
-                                        <div class="courses-img text-center">
-                                            <a href="#"><img style="height:224px;width:243px;object-fit: contain; "  src="assets/management/2.jpeg" alt="Image"></a>
-                                        </div>
-                                        <div class="courses-content text-center">
-                                            <h5>Digambar Sukhdev Kale</h5>
-                                            <p>Member</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                
-                                 
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="section-title">
-            <h2>Principal & Supervisor</h2>
-        </div>
-        <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-4 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                <div class="courses-img text-center">
-                                            <a href="#"><img style="height:300px;width:300px;object-fit: contain; "  src="assets/management/super.jpeg" alt="Image"></a>
-                                        </div>
-                    <div class="stories-content text-center">
-                    
-                        <h5>Kapil Mahendraprasad Pande <br/>Supervisor<br/>(B.com, D.ed )</h5>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 7709933293</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                <div class="courses-img text-center">
-                                            <a href="#"><img style="height:300px;width:300px;object-fit: contain; "  src="assets/management/Dipak Masane Principal.jpeg" alt="Image"></a>
-                                        </div>
-                    <div class="stories-content text-center">
-                    
-                        <h5>Mr. Dipak Manikrao Masane <br/>Principal<br/>(M.A. BEd)</h5>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 9763757391</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400" data-aos-once="true">
-                <div class="single-stories-card style2">
-                <div class="courses-img text-center">
-                                            <a href="#"><img style="height:300px;width:300px;object-fit: contain; "  src="assets/management/1.jpeg" alt="Image"></a>
-                                        </div>
-                    <div class="stories-content text-center">
-                        <h5>Mrs. Varsha Pande <br/>Principal<br/>(B.A., M.A., M.com, BEd)</h5>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 8446556137</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-title">
-            <h2>Office Staff</h2>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                        <h3>1) Mr. Mangesh Sahdevrao Masane</h3>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 9604044131</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                        <h3>2) Mr. Sagar Arun Potdukhe</h3>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 9657359335</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                        <h3>3) Mr. Ram Mahadeo Kale</h3>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 9604398296</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                        <h3>4) Mrs. Shraddha Sachin Ghatol</h3>
-                        <p>(Higher Primary & Secondary)</p>
-                        <p>Phone 9284709296</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- <div class="lates-news-area ptb-100 bg-f4f6f9">
-    <div class="container">
-        <div class="section-title">
-            <h2>Government Holidays</h2>
-            
-        </div>
-        <table class="table table-bordered">
-            <tbody>
-                <tr><td>1) 29 June 2023 </td><td> Bakri Eid</td></tr>
-
-                <tr><td>2) 29 July 2023 </td><td> Mohram</td></tr>
-
-                <tr><td>3) 15August 2023 </td><td> Independence Day</td></tr>
-
-                <tr><td>4) 16 August 2023 </td><td> Parashi Nootan Varsh</td></tr>
-
-                <tr><td>5) 19 September 2023 </td><td> Ganesh Chaturthi</td></tr>
-
-                <tr><td>6) 28 September 2023 </td><td> Anant Chaturthi / Eid a Milad</td></tr>
-                <tr><td>7) 02 October 2023 </td><td> Mahatma Gandhi Jayanti</td></tr>
-
-                <tr><td>8) 24 October 2023 </td><td> Dashara</td></tr>
-
-                <tr><td>9) 14 November 2023 </td><td> Bali Pratipada</td></tr>
-
-                <tr><td>10) 27 November 2023 </td><td> Guru Nanak Jayanti</td></tr>
-
-                <tr><td>11) 25 December 2023 </td><td> Christmas</td></tr>
-
-                <tr><td>12) 26 January 2024 </td><td> Republic Day</td></tr>
-
-                <tr><td>13) 25 March 2024 </td><td> Holi</td></tr>
-
-                <tr><td>14) 03 April 2024 </td><td> Mahavir Jayanti</td></tr>
-
-                <tr><td>15) 07 April 2024 </td><td> Good Friday</td></tr>
-
-                <tr><td>16) 14 April 2024 </td><td> Dr.Babasaheb Ambedkar Jayanti</td></tr>
-                <tr><td>17) 22 April 2024 </td><td> Ramjan Eid</td></tr>
-
-                <tr><td>18) 05 May 2024 </td><td> Buddha Pournima</td></tr>
-
-            </tbody>
-        </table>
-        <div class="section-title">
-            <h4>Annual Function Date 31st Dec & 1st Jan</h4>
-        </div>
-        <div class="section-title">
-            <h3>School Hours</h3>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                    <h4>Monday to Friday</h4>
-            <p>Nursery to UKG : 8.10 a.m. To 12.30 p.m.</p>
-            <p>1<sup>st</sup> to 10<sup>th</sup> Std. : 8.10 a.m.To 1.15 p.m.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="400" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                    <h4>Saturday</h4>
-            <p>Nursery to UKG : 8.10 a.m. to 11.15 a.m.</p>
-            <p>1<sup>st</sup> to 10<sup>th</sup> Std. : 8.10 a.m. to 11.15 a.m.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-title">
-        <h3>Office Time</h3>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-lg-12 col-md-12 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200" data-aos-once="true">
-                <div class="single-stories-card style2">
-                    <div class="stories-content">
-                    <p>Monday to Friday : 8.10 a.m. to 1.15 p.m.</p>
-                    <p>Saturday : 8.10 a.m. to 11.15 a.m.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-            
-
-            
-
-            
-            
-        </div>
-    </div> -->
-</div>
-</div>
-</div>
-<!--End Courses Area-->
-
-<?php include("inc/footer.php") ?>
-<?php include("inc/foot.php") ?>
+</main>
+<?php
+include("inc/footer.php");
+include("inc/foot.php");

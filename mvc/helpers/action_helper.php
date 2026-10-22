@@ -1165,47 +1165,149 @@ function display_menu($nodes, &$menu)
         }
     }
 }
+/*
+ * Home page menu grid: one section per top-level menu group, standalone
+ * items collected under "Quick access". Deeper levels are flattened into
+ * their top-level section.
+ */
 function display_grid_menu($nodes, &$menu)
 {
+    $quickTiles = '';
+    $sections   = '';
 
-    $subUrl = ['/add', '/edit', '/view', '/index'];
-
-    $CI = &get_instance();
-
-    foreach ($nodes as $key => $node) {
-
-        $f = 0;
-        if (isset($node['child'])) {
-            $f = 1;
+    foreach ($nodes as $node) {
+        $hasChild = isset($node['child']);
+        if (!(permissionChecker($node['link']) || ($node['link'] == '#' && $hasChild))) {
+            continue;
         }
-        if (permissionChecker($node['link']) || ($node['link'] == '#' && $f)) {
-            if ($f && customCompute($node['child']) == 1) {
-                $f    = 0;
-                $node = current($node['child']);
-            }
-            $current_url = current_url();
 
-            foreach ($subUrl as $value) {
-                $newUrl = substr($current_url, 0, strpos($current_url, $value));
-                if ($newUrl != "") {
-                    $current_url = $newUrl;
-                }
-            }
+        if ($hasChild && customCompute($node['child']) == 1) {
+            $hasChild = false;
+            $node     = current($node['child']);
+        }
 
-            if ($f) {
-                display_grid_menu($node['child'], $menu);
-            } else {
-                $menu .= '<div class="col-lg-3 col-xs-6"><div class="small-box" style="height:12rem">';
-                $menu .= anchor(
-                    $node['link'],
-                    '<div class="icon bg-white-menu" style="padding: 9.5px 18px 6px 18px;"><i class="fa ' . ($node['icon'] != null ? $node['icon'] : 'fa-home') . '"></i></div><div class="inner"><h3 class="text-blue">&nbsp;</h3><p class="text-blue">' . ($CI->lang->line('menu_' . $node['menuName']) != null ? $CI->lang->line('menu_' . $node['menuName']) : $node['menuName']) . '</p></div>',
-                    'class="small-box-footer bg-white-menu"'
-                );
-
-                $menu .= "</div></div>";
+        if ($hasChild) {
+            $sectionIcon = grid_menu_icon($node, 'fa-folder-open');
+            $tiles       = '';
+            grid_menu_tiles($node['child'], $tiles, $sectionIcon);
+            if ($tiles != '') {
+                $sections .= grid_menu_section(grid_menu_label($node), $sectionIcon, $tiles);
             }
+        } elseif ($node['link'] != 'home') {
+            // "home" is this grid page itself, so it gets no tile.
+            $quickTiles .= grid_menu_tile($node, 'fa-circle-o');
         }
     }
+
+    $menu .= ($quickTiles != '' ? grid_menu_section('Quick access', 'fa-bolt', $quickTiles) : '') . $sections;
+}
+
+function grid_menu_tiles($nodes, &$tiles, $parentIcon)
+{
+    foreach ($nodes as $node) {
+        $hasChild = isset($node['child']);
+        if (!(permissionChecker($node['link']) || ($node['link'] == '#' && $hasChild))) {
+            continue;
+        }
+
+        if ($hasChild) {
+            grid_menu_tiles($node['child'], $tiles, grid_menu_icon($node, $parentIcon));
+        } else {
+            $tiles .= grid_menu_tile($node, $parentIcon);
+        }
+    }
+}
+
+function grid_menu_section($title, $icon, $tiles)
+{
+    return '<section class="menu-section" data-menu-section>'
+        . '<h2 class="menu-section__title"><span class="menu-section__icon"><i class="fa ' . $icon . '"></i></span>'
+        . '<span>' . $title . '</span><span class="menu-section__count">' . substr_count($tiles, 'class="menu-tile"') . '</span></h2>'
+        . '<div class="menu-grid">' . $tiles . '</div>'
+        . '</section>';
+}
+
+function grid_menu_tile($node, $fallbackIcon)
+{
+    $label = grid_menu_label($node);
+    return anchor(
+        $node['link'],
+        '<span class="menu-tile__icon"><i class="fa ' . grid_menu_icon($node, $fallbackIcon) . '"></i></span>'
+        . '<span class="menu-tile__label">' . $label . '</span>'
+        . '<i class="fa fa-angle-right menu-tile__go"></i>',
+        'class="menu-tile" data-menu-label="' . htmlspecialchars(strtolower(strip_tags($label)), ENT_QUOTES) . '"'
+    );
+}
+
+function grid_menu_label($node)
+{
+    $CI   = &get_instance();
+    $line = $CI->lang->line('menu_' . $node['menuName']);
+    return $line != null ? $line : $node['menuName'];
+}
+
+/*
+ * Icon for a menu item: a curated icon for the module, else the icon saved
+ * in the menu table, else the parent group's icon.
+ */
+function grid_menu_icon($node, $fallbackIcon)
+{
+    static $icons = [
+        'dashboard' => 'fa-laptop', 'home' => 'fa-home', 'term_attendance' => 'fa-calendar-check-o', 'candidate' => 'fa-user-plus',
+        'accountcashbook' => 'fa-book', 'accountledgerbook' => 'fa-book', 'student' => 'fa-graduation-cap', 'inactivestudent' => 'fa-user-times',
+        'onlineadmission' => 'fa-user-plus', 'parents' => 'fa-users', 'teacher' => 'fa-user-secret',
+        'user' => 'fa-user', 'usertype' => 'fa-shield', 'profile' => 'fa-user',
+        'classes' => 'fa-building-o', 'section' => 'fa-th-large', 'subject' => 'fa-book', 'syllabus' => 'fa-list-alt',
+        'assignment' => 'fa-tasks', 'routine' => 'fa-clock-o', 'studentgroup' => 'fa-object-group', 'department' => 'fa-sitemap',
+        'promotion' => 'fa-level-up', 'childcare' => 'fa-child',
+        'sattendance' => 'fa-check-square-o', 'tattendance' => 'fa-check-circle-o', 'uattendance' => 'fa-user-plus',
+        'eattendance' => 'fa-calendar-check-o', 'attendance' => 'fa-check-square-o',
+        'exam' => 'fa-pencil', 'examschedule' => 'fa-calendar', 'grade' => 'fa-star-half-o', 'mark' => 'fa-pencil-square-o',
+        'markpercentage' => 'fa-pie-chart', 'marksetting' => 'fa-sliders',
+        'question_group' => 'fa-object-group', 'question_level' => 'fa-signal', 'question_bank' => 'fa-question-circle',
+        'online_exam' => 'fa-desktop', 'take_exam' => 'fa-hourglass-half', 'instruction' => 'fa-info-circle',
+        'lmember' => 'fa-list-alt', 'member' => 'fa-list-alt', 'book' => 'fa-book', 'books' => 'fa-book', 'issue' => 'fa-exchange',
+        'ebooks' => 'fa-tablet', 'transport' => 'fa-bus', 'tmember' => 'fa-bus', 'hostel' => 'fa-bed', 'hmember' => 'fa-bed', 'category' => 'fa-tags',
+        'feetypes' => 'fa-tags', 'feeamounts' => 'fa-inr', 'feepackages' => 'fa-archive', 'setfee' => 'fa-sliders',
+        'invoice' => 'fa-file-text-o', 'paymenthistory' => 'fa-history', 'global_payment' => 'fa-credit-card',
+        'global_payment_student' => 'fa-credit-card', 'expense' => 'fa-minus-circle', 'income' => 'fa-plus-circle',
+        'ledger' => 'fa-book', 'ledgers' => 'fa-book', 'bankaccount' => 'fa-university', 'account' => 'fa-calculator',
+        'salary_template' => 'fa-file-text', 'hourly_template' => 'fa-clock-o', 'manage_salary' => 'fa-money',
+        'make_payment' => 'fa-paper-plane-o', 'overtime' => 'fa-hourglass-half',
+        'notice' => 'fa-bullhorn', 'event' => 'fa-calendar-o', 'holiday' => 'fa-flag', 'media' => 'fa-file-image-o',
+        'conversation' => 'fa-comments', 'message' => 'fa-comments', 'mailandsms' => 'fa-envelope', 'mailandsmstemplate' => 'fa-envelope-o',
+        'complain' => 'fa-commenting-o', 'visitorinfo' => 'fa-street-view',
+        'certificate_template' => 'fa-certificate', 'certificate' => 'fa-certificate', 'bonafiedcertificate' => 'fa-certificate',
+        'leavingcertificate' => 'fa-sign-out', 'vendor' => 'fa-truck', 'location' => 'fa-map-marker', 'asset_category' => 'fa-tags',
+        'asset' => 'fa-cubes', 'asset_assignment' => 'fa-share-square-o', 'purchase' => 'fa-shopping-cart',
+        'product' => 'fa-cube', 'productcategory' => 'fa-tags', 'productsupplier' => 'fa-truck', 'productwarehouse' => 'fa-building',
+        'productpurchase' => 'fa-cart-plus', 'productsale' => 'fa-shopping-cart', 'uniformsale' => 'fa-shopping-cart', 'productsaletemplate' => 'fa-file-o',
+        'leavecategory' => 'fa-tags', 'leaveassign' => 'fa-calendar-plus-o', 'leaveapply' => 'fa-paper-plane',
+        'leaveapplication' => 'fa-inbox', 'activitiescategory' => 'fa-tags', 'activities' => 'fa-futbol-o', 'sponsorship' => 'fa-heart',
+        'frontend_setting' => 'fa-globe', 'websitepopup' => 'fa-clone', 'frontendmenu' => 'fa-bars', 'pages' => 'fa-file-o', 'posts' => 'fa-newspaper-o',
+        'posts_categories' => 'fa-tags', 'sociallink' => 'fa-share-alt', 'menu' => 'fa-bars',
+        'setting' => 'fa-cog', 'emailsetting' => 'fa-at', 'smssettings' => 'fa-mobile', 'paymentsettings' => 'fa-credit-card',
+        'permission' => 'fa-key', 'resetpassword' => 'fa-unlock-alt', 'schoolyear' => 'fa-calendar-plus-o', 'systemadmin' => 'fa-user-md',
+        'backup' => 'fa-database', 'bulkimport' => 'fa-upload', 'import' => 'fa-upload', 'update' => 'fa-refresh', 'addons' => 'fa-puzzle-piece',
+        'idcardreport' => 'fa-list-alt', 'admitcardreport' => 'fa-ticket', 'progresscardreport' => 'fa-line-chart',
+        'tabulationsheetreport' => 'fa-table', 'marksheetreport' => 'fa-file-text-o', 'terminalreport' => 'fa-file-text',
+        'meritstagereport' => 'fa-trophy', 'attendancereport' => 'fa-check-square-o', 'attendanceoverviewreport' => 'fa-area-chart',
+        'feesreport' => 'fa-inr', 'duefeesreport' => 'fa-exclamation-circle', 'balancefeesreport' => 'fa-balance-scale',
+        'searchpaymentfeesreport' => 'fa-search', 'transactionreport' => 'fa-exchange', 'salaryreport' => 'fa-money',
+        'accountledgerreport' => 'fa-book', 'accountcashbookreport' => 'fa-book', 'accountledgerbookreport' => 'fa-book',
+    ];
+
+    $key = strtolower(strtok((string) $node['link'], '/'));
+    if (isset($icons[$key])) {
+        return $icons[$key];
+    }
+    if (substr($key, -6) === 'report') {
+        return 'fa-bar-chart';
+    }
+    if (!empty($node['icon']) && $node['icon'] != 'fa-home') {
+        return $node['icon'];
+    }
+    return $fallbackIcon;
 }
 
 function namesorting($string, $len = 14)

@@ -63,9 +63,9 @@ if (!preg_match("/^(127\.0\.|10\.0\.).+/i", getIpAddress())) {
     $_SERVER['CI_ENV'] = 'production';
 }
 
-// define('ENVIRONMENT', 'development');
+define('ENVIRONMENT', 'production');
 
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+//define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------

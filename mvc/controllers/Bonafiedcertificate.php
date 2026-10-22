@@ -183,6 +183,7 @@ class Bonafiedcertificate extends Admin_Controller {
 					$tagArray['[group]'] 		= customCompute($tagGroup) ? $tagGroup->group : '';
 					$tagArray['[optional_subject]'] = customCompute($tagSubject) ? $tagSubject->subject : '';
 					$tagArray['[register_no]'] 	= $student->srregisterNO;
+					$tagArray['[pen_no]'] 		= isset($student->pen_no) ? $student->pen_no : '';
 					$tagArray['[roll]']	 		= $student->srroll;
 					$tagArray['[extra_curricular_activities]'] 	= $student->extracurricularactivities;
 					$tagArray['[remarks]'] 		= $student->remarks;

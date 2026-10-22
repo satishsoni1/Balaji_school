@@ -1,36 +1,14 @@
-
-<style>
-.message-box {
-    background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .error {
-            color:rgb(254, 6, 31);
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-    </style>
 <div class="form-box" id="login-box">
-    <div class="header"><?=$this->lang->line('signin')?></div>
+    <div class="header">Welcome back</div>
+    <p class="auth__lead">Sign in with the username and password provided by the school.</p>
     <form method="post">
-
-        <!-- style="margin-top:40px;" -->
-
         <div class="body white-bg">
         <?php
             if($form_validation == "No"){
             } else {
                 if(customCompute($form_validation)) {
                     echo "<div class=\"alert alert-danger alert-dismissable\">
-                        <i class=\"fa fa-ban\"></i>
+                        <i class=\"fa fa-exclamation-circle\"></i>
                         <button aria-hidden=\"true\" data-dismiss=\"alert\" class=\"close\" type=\"button\">×</button>
                         $form_validation
                     </div>";
@@ -39,30 +17,34 @@
             if($this->session->flashdata('reset_success')) {
                 $message = $this->session->flashdata('reset_success');
                 echo "<div class=\"alert alert-success alert-dismissable\">
-                    <i class=\"fa fa-ban\"></i>
+                    <i class=\"fa fa-check-circle\"></i>
                     <button aria-hidden=\"true\" data-dismiss=\"alert\" class=\"close\" type=\"button\">×</button>
                     $message
                 </div>";
             }
         ?>
             <div class="form-group">
-                <input class="form-control" placeholder="Username" name="username" type="text" autofocus value="<?=set_value('username')?>">
+                <label class="auth__label" for="username">Username</label>
+                <div class="auth__field">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <input class="form-control" id="username" placeholder="Enter your username" name="username" type="text" autocomplete="username" autocapitalize="none" autofocus value="<?=set_value('username')?>">
+                </div>
             </div>
             <div class="form-group">
-                <input class="form-control" placeholder="Password" name="password" type="password">
+                <label class="auth__label" for="password">Password</label>
+                <div class="auth__field">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input class="form-control has-toggle" id="password" placeholder="Enter your password" name="password" type="password" autocomplete="current-password">
+                    <button class="auth__toggle" type="button" aria-label="Show password" data-toggle-password><i class="fa fa-eye"></i></button>
+                </div>
             </div>
 
-
-            <div class="checkbox">
+            <div class="auth__row">
                 <label>
                     <input type="checkbox" value="Remember Me" name="remember">
-                    <span> &nbsp; Remember Me</span>
+                    <span>Remember me</span>
                 </label>
-                <span class="pull-right">
-                    <label>
-                        <a href="<?=base_url('reset/index')?>"> Forgot Password?</a>
-                    </label>
-                </span>
+                <a href="<?=base_url('reset/index')?>">Forgot password?</a>
             </div>
 
             <?php if(isset($siteinfos->captcha_status) && $siteinfos->captcha_status == 0) { ?>
@@ -70,16 +52,8 @@
                     <?php echo $recaptcha['widget']; echo $recaptcha['script']; ?>
                 </div>
             <?php } ?>
-            
-            <input type="submit" class="btn btn-lg btn-success btn-block" value="SIGN IN" />
-            <!--<div class="message-box">-->
-            <!--    <p class="error">Storage space full. Clear cache and try again.</p>-->
-            <!--</div>-->
-            <?php if(config_item('demo')) { ?>
-                <a href="https://codecanyon.net/item/inilabs-school-android-app-ionic-mobile-application/25780938" target="_blank">
-                    <img class="img-responsive" src="https://demo.inilabs.net/description/school/app/signin-banner-2.png" alt="inilabs school app banner">
-                </a>
-            <?php } ?>
+
+            <input type="submit" class="btn btn-lg btn-success btn-block" value="Sign in" />
         </div>
     </form>
 </div>

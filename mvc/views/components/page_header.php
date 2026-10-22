@@ -5,7 +5,8 @@
 
         <title><?=$this->lang->line('panel_title')?></title>
 
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <meta content='width=device-width, initial-scale=1' name='viewport'>
+        <meta name="theme-color" content="#1d1719">
 
         <link rel="SHORTCUT ICON" href="<?=base_url("uploads/images/$siteinfos->photo")?>" />
 
@@ -46,6 +47,10 @@
         <link rel="stylesheet" href="<?php echo base_url('assets/inilabs/combined.css'); ?>" >
         <link rel="stylesheet" href="<?php echo base_url('assets/ajaxloder/ajaxloder.css'); ?>" >
         <link href="<?php echo base_url('assets/datatables/dataTables.bootstrap.css'); ?>" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+        <link id="modernCSSLink" href="<?php echo base_url('assets/inilabs/modern.css').'?v='.filemtime(FCPATH.'assets/inilabs/modern.css'); ?>" rel="stylesheet">
         <?php
             if(isset($headerassets)) {
                 foreach ($headerassets as $assetstype => $headerasset) {

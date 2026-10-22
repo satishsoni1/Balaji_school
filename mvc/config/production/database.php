@@ -49,7 +49,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['dsn']	   = '';
-$db['default']['hostname'] = 'localhost';
+//$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = 'shribalajiengschool.in';
 $db['default']['username'] = 'u198329521_school';
 $db['default']['password'] = 'School@123';
 $db['default']['database'] = 'u198329521_school';

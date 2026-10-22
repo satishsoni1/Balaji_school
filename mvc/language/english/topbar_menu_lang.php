@@ -259,3 +259,4 @@ $lang['menu_sponsorshipreport'] = 'Sponsorship Report';
 
 
 
+$lang['menu_websitepopup'] = 'Website Popup';

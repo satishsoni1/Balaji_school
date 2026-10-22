@@ -386,6 +386,7 @@ if ( !defined('BASEPATH') ) {
             $this->_incomeExpenseGraph();
             $this->_visitorGraph();
             $this->_profile();
+            $this->_widgets();
 
             if ( ( config_item('demo') === false ) && ( $this->data['siteinfos']->auto_update_notification == 1 ) && ( $this->session->userdata('usertypeID') == 1 ) && ( $this->session->userdata('loginuserID') == 1 ) ) {
                 if ( $this->session->userdata('updatestatus') === null ) {
@@ -467,10 +468,115 @@ if ( !defined('BASEPATH') ) {
             $this->data['dashboardWidget']['allmenu']     = $allmenu;
             $this->data['dashboardWidget']['allmenulang'] = $allmenulang;
 
+            $this->data['dashboardStudents'] = $students;
+            $this->data['dashboardInvoices'] = $invoices;
+
             $this->data['notices']  = $this->notice_m->get_order_by_notice([ 'schoolyearID' => $schoolyearID ]);
             $this->data['holidays'] = $holidays;
             $this->data['events']   = $events;
             $this->data['classes']  = $classes;
+        }
+
+        /*
+         * Extra dashboard widgets, built from data the other helpers already loaded:
+         * today's attendance, fee invoice status, this month's income/expense,
+         * class strength, gender split, birthdays and upcoming events/holidays.
+         */
+        private function _widgets()
+        {
+            $students = $this->data['dashboardStudents'];
+            $invoices = $this->data['dashboardInvoices'];
+            unset($this->data['dashboardStudents'], $this->data['dashboardInvoices']);
+
+            $today = date('Y-m-d');
+
+            // Today's attendance
+            $present = 0;
+            $absent  = 0;
+            if ( $this->data['attendanceSystem'] != 'subject' ) {
+                foreach ( $this->data['todaysAttendance'] as $day ) {
+                    $present += $day['P'];
+                    $absent  += $day['A'];
+                }
+            } else {
+                foreach ( $this->data['todaysSubjectWiseAttendance'] as $day ) {
+                    $present += $day['P'];
+                    $absent  += $day['A'];
+                }
+            }
+            $this->data['widgetAttendance'] = [
+                'present' => $present,
+                'absent'  => $absent,
+                'marked'  => $present + $absent,
+                'total'   => customCompute($students),
+                'rate'    => ( $present + $absent ) ? round($present * 100 / ( $present + $absent )) : 0,
+            ];
+
+            // Fee invoices: 0 = unpaid, 1 = partially paid, 2 = paid
+            $invoiceStatus = [ 0 => 0, 1 => 0, 2 => 0 ];
+            foreach ( $invoices as $invoice ) {
+                if ( isset($invoiceStatus[ (int) $invoice->maininvoicestatus ]) ) {
+                    $invoiceStatus[ (int) $invoice->maininvoicestatus ]++;
+                }
+            }
+            $this->data['widgetInvoices'] = [
+                'unpaid'  => $invoiceStatus[0],
+                'partial' => $invoiceStatus[1],
+                'paid'    => $invoiceStatus[2],
+                'total'   => array_sum($invoiceStatus),
+            ];
+
+            $month = (int) date('m');
+            $this->data['widgetMonth'] = [
+                'income'  => isset($this->data['incomeMonthTotal'][ $month ]) ? $this->data['incomeMonthTotal'][ $month ] : 0,
+                'expense' => isset($this->data['expenseMonthTotal'][ $month ]) ? $this->data['expenseMonthTotal'][ $month ] : 0,
+            ];
+
+            // Class strength, gender split and today's birthdays
+            $classStrength = [];
+            $gender        = [ 'Male' => 0, 'Female' => 0, 'Other' => 0 ];
+            $birthdays     = [];
+            foreach ( $students as $student ) {
+                $className = isset($this->data['classes'][ $student->srclassesID ]) ? $this->data['classes'][ $student->srclassesID ]->classes : '';
+                if ( !isset($classStrength[ $student->srclassesID ]) ) {
+                    $classStrength[ $student->srclassesID ] = [
+                        'name'  => $className,
+                        'order' => isset($this->data['classes'][ $student->srclassesID ]) ? (int) $this->data['classes'][ $student->srclassesID ]->classes_numeric : 0,
+                        'count' => 0,
+                    ];
+                }
+                $classStrength[ $student->srclassesID ]['count']++;
+
+                $sex = ucfirst(strtolower(trim((string) $student->sex)));
+                $gender[ isset($gender[ $sex ]) ? $sex : 'Other' ]++;
+
+                if ( !empty($student->dob) && $student->dob != '0000-00-00' && date('m-d', strtotime($student->dob)) == date('m-d') ) {
+                    $birthdays[] = (object) [ 'name' => $student->name, 'photo' => $student->photo, 'class' => $className ];
+                }
+            }
+            uasort($classStrength, function ( $a, $b ) {
+                return $a['order'] - $b['order'];
+            });
+            $this->data['widgetClassStrength'] = $classStrength;
+            $this->data['widgetGender']        = $gender;
+            $this->data['widgetBirthdays']     = $birthdays;
+
+            // Upcoming events and holidays (ongoing or starting later), soonest first
+            $upcoming = [];
+            foreach ( $this->data['events'] as $event ) {
+                if ( $event->tdate >= $today ) {
+                    $upcoming[] = (object) [ 'type' => 'event', 'title' => $event->title, 'fdate' => $event->fdate, 'tdate' => $event->tdate, 'link' => 'event/view/' . $event->eventID ];
+                }
+            }
+            foreach ( $this->data['holidays'] as $holiday ) {
+                if ( $holiday->tdate >= $today ) {
+                    $upcoming[] = (object) [ 'type' => 'holiday', 'title' => $holiday->title, 'fdate' => $holiday->fdate, 'tdate' => $holiday->tdate, 'link' => 'holiday/view/' . $holiday->holidayID ];
+                }
+            }
+            usort($upcoming, function ( $a, $b ) {
+                return strcmp($a->fdate, $b->fdate);
+            });
+            $this->data['widgetUpcoming'] = array_slice($upcoming, 0, 6);
         }
 
         private function _attendanceGraph()

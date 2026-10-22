@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html lang="zxx">
+<?php
+require_once __DIR__ . '/data.php';
 
+$pageTitle       = isset($pageTitle) ? $pageTitle : $school['name'] . ', ' . $school['place'];
+$pageDescription = isset($pageDescription) ? $pageDescription : $school['about'];
+$activePage      = isset($activePage) ? $activePage : 'home';
+?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= e($pageTitle) ?></title>
+    <meta name="description" content="<?= e($pageDescription) ?>">
+    <meta name="theme-color" content="#7a1d24">
 
-    <!--Bootstrap Css-->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!--Meanmenu.css-->
-    <link rel="stylesheet" href="assets/css/meanmenu.css">
-    <!--Owl carousel-->
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <!--Owl Theme-->
-    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
-    <!--Magnific-popup-->
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <!--Flaticon-->
-    <link rel="stylesheet" href="assets/css/flaticon.css">
-    <!--Remixicon-->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<?= e($pageTitle) ?>">
+    <meta property="og:description" content="<?= e($pageDescription) ?>">
+    <meta property="og:image" content="assets/images/opt/campus.jpg">
+
+    <link rel="icon" type="image/png" href="assets/images/logo_shri2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="assets/css/remixicon.css">
-    <!--Odometer-->
-    <link rel="stylesheet" href="assets/css/odometer.min.css">
-    <!--Aos css-->
-    <link rel="stylesheet" href="assets/css/aos.css">
-    <!--Style css-->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!--Dark css-->
-    <link rel="stylesheet" href="assets/css/dark.css">
-    <!--Responsive css-->
-    <link rel="stylesheet" href="assets/css/responsive.css">
-
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-    <title>Shri Balaji Eng School </title>
+    <link rel="stylesheet" href="assets/css/site.css">
 </head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>

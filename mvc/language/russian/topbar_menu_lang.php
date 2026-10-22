@@ -213,3 +213,4 @@ $lang['menu_candidate'] = 'Кандидат';
 $lang['menu_sponsor'] = 'Спонсор';
 $lang['menu_sponsorship'] = 'Спонсорство';
 $lang['menu_sponsorshipreport'] = 'Отчет о спонсорстве';
+$lang['menu_websitepopup'] = 'Website Popup';

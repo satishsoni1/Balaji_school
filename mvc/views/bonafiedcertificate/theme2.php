@@ -82,6 +82,10 @@
                             <td class="right_text">Regd.No : <?= $student->registerNO ?> </td>
                         </tr>
                         <tr>
+                            <td>PEN No : <b><?= !empty($student->pen_no) ? htmlspecialchars($student->pen_no) : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' ?></b></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to certify that <b><?= $student->name ?> - <?= $parents->mother_name ?></b> is a bonafide student of our school, studying in <b><?=customCompute($class) ? $class->classes : ''?></b> (Year : <b><?= $schoolyears->schoolyear ?></b>). His birthdate as recorded in our General Register is <b><?= ($student->dob && $student->dob!=null)?date('d-m-Y',strtotime($student->dob)):"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" ?></b> (in words <?= dobinword($student->dob) ?>) his/ her birth place is <b><?= $student->birth_place ?></b> and belongs to <b><?= $student->caste ?></b> caste. To the best of my knowledge,He/She bears a good moral character as well as He/She has shown good progress.</td>
                         </tr>
                     </tbody>

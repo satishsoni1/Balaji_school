@@ -1,5 +1,8 @@
         <header class="header">
             <a href="<?php echo base_url('home/index'); ?>" class="logo">
+                <?php if(customCompute($siteinfos) && $siteinfos->photo) { ?>
+                    <img class="logo-mark" src="<?=base_url('uploads/images/'.$siteinfos->photo)?>" alt="">
+                <?php } ?>
                 <?php if(customCompute($siteinfos)) { echo namesorting($siteinfos->sname, 14); } ?>
             </a>
             <nav class="navbar navbar-static-top" role="navigation">
