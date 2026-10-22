@@ -1,0 +1,291 @@
+/*
+  ══════════════════════════════════════════════════════
+  mPDF-COMPATIBLE CSS
+  Key rules for mPDF:
+  - No flexbox / CSS Grid — use tables for all layout
+  - No box-shadow, no ::before/::after pseudo-elements
+  - Backgrounds on <td>/<th> directly, not on divs
+  - margin: auto does NOT centre blocks — use align="center" on tables
+  - position:relative/absolute limited support — avoid
+  - border-radius NOT supported — removed
+  - linear-gradient NOT supported — use flat colours
+  - No display:flex, display:grid
+  - Use pt/mm for sizes, not vw/vh
+  - font-size in pt preferred
+  - page-break-after: always works fine
+  - @page rule supported
+  ══════════════════════════════════════════════════════
+*/
+
+@page {
+    margin: 2mm 2mm 2mm 2mm;
+    size: A4 portrait;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    color: #000;
+    background: #fff;
+}
+
+/* ── OUTER PAGE BORDER (mPDF: use a wrapping table) ── */
+.page-wrap {
+    width: 100%;
+    border: 3pt double #008080;
+    padding: 3pt;
+}
+
+/* ── INNER BORDER — use a nested table cell ── */
+.inner-border {
+    width: 100%;
+    border: 1pt solid #00aaaa;
+    padding: 3pt;
+}
+
+/* ── SCHOOL HEADER ── */
+.school-name {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #003366;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+}
+.school-address {
+    font-size: 8pt;
+    color: #333;
+    text-align: center;
+}
+.school-helpline {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+.report-badge {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #cc0066;
+    border: 1.5pt solid #cc0066;
+    background: #fff0f8;
+    text-align: center;
+    padding: 6pt 10pt;
+    letter-spacing: 1pt;
+}
+.session-line {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #003366;
+    text-align: center;
+}
+.class-line {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+}
+.reg-line {
+    font-size: 8pt;
+    color: #555;
+    text-align: center;
+}
+
+/* ── INFO BOX ── */
+.info-box {
+    width: 100%;
+    border: 1.5pt solid #008080;
+    background: #f0fafa;
+}
+.info-box td {
+    font-size: 8.5pt;
+    padding: 2pt 4pt;
+    border: none;
+}
+.info-label {
+    font-weight: bold;
+    color: #006666;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    width: 100pt;
+}
+.info-value {
+    font-weight: bold;
+    color: #000;
+}
+
+/* ── ALL DATA TABLES ── */
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+}
+table.data-table th,
+table.data-table td {
+    border: 0.5pt solid #888800;
+    padding: 2pt 3pt;
+    text-align: center;
+}
+table.data-table td.subject-col {
+    text-align: left;
+    font-weight: bold;
+}
+
+/* ── MAIN EXAM HEADER ROW — olive yellow ── */
+.th-main {
+    background: #cccc00;
+    color: #000000;
+    font-weight: bold;
+    font-size: 9.5pt;
+}
+/* ── SUB HEADER ROW — light yellow ── */
+.th-sub {
+    background: #ffff99;
+    color: #000;
+    font-weight: bold;
+    font-size: 8pt;
+}
+/* ── TERM label row ── */
+.th-term {
+    background: #ffff99;
+    color: #cc0000;
+    font-weight: bold;
+    font-size: 8.5pt;
+}
+.grade-cell {
+    font-weight: bold;
+    color: #000080;
+}
+/* ── GRAND TOTAL ROW ── */
+.td-grand-label {
+    background: #ffff99;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+.td-grand-val {
+    background: #fff;
+    color: #0000cc;
+    font-weight: bold;
+    font-size: 10pt;
+    text-align: center;
+}
+
+/* ── ALTERNATING ROW COLOURS ── */
+.tr-even td { background: #fffff0; }
+.tr-odd  td { background: #ffffff; }
+
+/* ── SECTION HEADER (CO-SCHOLASTIC etc) ── */
+.section-header {
+    background: #cccc00;
+    color: #000000;
+    font-weight: bold;
+    text-align: center;
+    font-size: 9pt;
+    letter-spacing: 1pt;
+    padding: 3pt;
+}
+
+/* ── DA BOXES (Discipline / Attendance) ── */
+.da-title {
+    background: #008080;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 8.5pt;
+    padding: 2pt;
+}
+.da-th {
+    background: #ffff99;
+    color: #000;
+    font-weight: bold;
+    font-size: 7.5pt;
+    border: 0.5pt solid #888800;
+    padding: 2pt 3pt;
+    text-align: center;
+}
+.da-td {
+    border: 0.5pt solid #888800;
+    padding: 2pt 3pt;
+    text-align: center;
+    font-size: 8pt;
+}
+
+/* ── GRADING TABLE ── */
+.grading-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 9pt;
+    color: #006600;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    padding: 4pt 0 1pt;
+}
+.grading-sub {
+    font-size: 7.5pt;
+    text-align: center;
+    color: #555;
+    padding-bottom: 3pt;
+}
+.grading-th {
+    background: #cccc00;
+    color: #000000;
+    font-weight: bold;
+    font-size: 7.5pt;
+    border: 0.5pt solid #888800;
+    padding: 2pt 3pt;
+    text-align: center;
+}
+.grading-td {
+    font-size: 7.5pt;
+    border: 0.5pt solid #888800;
+    padding: 2pt 3pt;
+    text-align: center;
+}
+.grading-td-even { background: #fffff0; }
+.grading-td-odd  { background: #ffffff; }
+
+/* ── REMARKS ROW ── */
+.remarks-wrap {
+    width: 100%;
+    border: 0.5pt solid #009999;
+    background: #f0fafa;
+    padding: 3pt 5pt;
+    font-size: 8.5pt;
+    font-weight: bold;
+}
+.remarks-val {
+    border-bottom: 1.5pt solid #008080;
+    color: #007700;
+    font-weight: bold;
+}
+
+/* ── ISSUE / REOPEN DATES ── */
+.issue-reopen {
+    font-size: 7.5pt;
+    font-weight: bold;
+    color: #333;
+    padding: 3pt 0 0;
+}
+
+/* ── DIVIDER ── */
+.teal-divider {
+    border-top: 1pt solid #00aaaa;
+    margin: 2pt 0;
+}
+
+/* ── SIGNATURES ── */
+.sig-line-top {
+    border-top: 0.5pt solid #333;
+    padding-top: 2pt;
+    font-weight: bold;
+    color: #006666;
+    font-size: 8pt;
+    text-align: center;
+}

@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    font-family: calibri;
+    color: #000;
+    font-size: 10px;
+}
+.table {
+    border-collapse: collapse !important;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.table td,
+.table th {
+    background-color: #fff !important;
+    padding: 2px;
+    border: 1px solid #000 !important;
+    line-height: 1.2;
+    vertical-align: top;
+}
+
+.table-bordered {
+    border: 1px solid #000;
+}
+
+.table-bordered>tr>th,
+.table-bordered>tr>td,
+.table-bordered>thead>tr>th,
+.table-bordered>thead>tr>td {
+    border-bottom-width: 2px;
+}

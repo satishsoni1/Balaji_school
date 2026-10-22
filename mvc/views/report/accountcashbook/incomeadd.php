@@ -1,0 +1,269 @@
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title"><i class="fa iniicon-income"></i> Income</h3>
+
+       
+        <ol class="breadcrumb">
+            <li><a href="<?=base_url("home/index")?>"><i class="fa fa-laptop"></i> <?=$this->lang->line('menu_dashboard')?></a></li>
+            <li><a href="<?=base_url("income/index")?>"><?=$this->lang->line('menu_income')?></a></li>
+            <li class="active">Add Income</li>
+        </ol>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-10">
+                <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                <?php 
+                        if(form_error('ledger')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="ledger" class="col-sm-2 control-label">
+                        Ledger
+                            <span class="text-red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                        <?php
+                        $array = [];
+                        if(customCompute($ledgers)) {
+                            foreach ($ledgers as $ledger) {
+                                $array[$ledger->ledgersID] = $ledger->ledgers;
+                            }
+                        }
+                        echo form_dropdown("ledgersID", $array , set_value("ledgersID"), "id='ledgersID' class='form-control select2'");
+                     ?>        
+                    </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('ledger'); ?>
+                        </span>
+                    </div>
+                  <?php 
+                        if(form_error('name')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="name" class="col-sm-2 control-label">
+                            <?=$this->lang->line("income_name")?>
+                            <span class="text-red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="name" name="name" value="<?=set_value('name')?>" >
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('name'); ?>
+                        </span>
+                    </div>
+
+                    <?php 
+                        if(form_error('date')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="date" class="col-sm-2 control-label">
+                            <?=$this->lang->line("income_date")?>
+                            <span class="text-red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="date" name="date" value="<?=set_value('date')?>" >
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('date'); ?>
+                        </span>
+                    </div>
+
+
+                    <?php 
+                        if(form_error('amount')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="amount" class="col-sm-2 control-label">
+                            <?=$this->lang->line("income_amount")?>
+                            <span class="text-red">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="amount" name="amount" value="<?=set_value('amount')?>" >
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('amount'); ?>
+                        </span>
+                    </div>
+                    <?php 
+                        if(form_error('bankaccount')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="bankaccount" class="col-sm-2 control-label">
+                        Bank account
+                        </label>
+                        <div class="col-sm-6">
+                        <?php
+                            $bankaccountArray = array(0 => "Select Account");
+                            if(customCompute($bankaccounts)) {
+                                foreach ($bankaccounts as $bankaccount) {
+                                        $bankaccountArray[$bankaccount->bankaccountID] = $bankaccount->bankaccountbankname;
+                                }
+                            }
+                            echo form_dropdown("bankaccountID", $bankaccountArray, set_value("bankaccountID"), "id='bankaccountID' class='form-control select2'");
+                        ?>
+                           
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('bankaccount'); ?>
+                        </span>
+                    </div>
+
+                    <?php 
+                        if(form_error('file')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="file" class="col-sm-2 control-label">
+                            <?=$this->lang->line("income_file")?>
+                        </label>
+                        <div class="col-sm-6">
+                            <div class="input-group image-preview">
+                                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                        <span class="fa fa-remove"></span>
+                                        <?=$this->lang->line('income_clear')?>
+                                    </button>
+                                    <div class="btn btn-success image-preview-input">
+                                        <span class="fa fa-repeat"></span>
+                                        <span class="image-preview-input-title">
+                                        <?=$this->lang->line('income_file_browse')?></span>
+                                        <input type="file" name="file" accept="image/png, image/jpeg, image/gif, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf"/>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('file'); ?>
+                        </span>
+                    </div>
+                    <?php 
+                        if(form_error('cheque')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="note" class="col-sm-2 control-label">
+                        Cheque No
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="cheque" name="cheque"/>
+                            </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('cheque'); ?>
+                        </span>
+                    </div>
+
+                    <?php 
+                        if(form_error('note')) 
+                            echo "<div class='form-group has-error' >";
+                        else     
+                            echo "<div class='form-group' >";
+                    ?>
+                        <label for="note" class="col-sm-2 control-label">
+                            <?=$this->lang->line("income_note")?>
+                        </label>
+                        <div class="col-sm-6">
+                            <textarea style="resize:none;" class="form-control" id="note" name="note"><?=set_value('note')?></textarea>
+                        </div>
+                        <span class="col-sm-4 control-label">
+                            <?php echo form_error('note'); ?>
+                        </span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input type="submit" class="btn btn-success" value="<?=$this->lang->line("add_income")?>" >
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$("#date").datepicker({
+    autoclose: true,
+    format: 'dd-mm-yyyy',
+    startDate:'<?=$schoolyearsessionobj->startingdate?>',
+    endDate:'<?=$schoolyearsessionobj->endingdate?>',
+});
+
+$(document).on('click', '#close-preview', function(){ 
+    $('.image-preview').popover('hide');
+    // Hover befor close the preview
+    $('.image-preview').hover(
+        function () {
+           $('.image-preview').popover('show');
+           $('.content').css('padding-bottom', '100px');
+        }, 
+         function () {
+           $('.image-preview').popover('hide');
+           $('.content').css('padding-bottom', '20px');
+        }
+    );    
+});
+
+$(function() {
+    // Create the close button
+    var closebtn = $('<button/>', {
+        type:"button",
+        text: 'x',
+        id: 'close-preview',
+        style: 'font-size: initial;',
+    });
+    closebtn.attr("class","close pull-right");
+    // Set the popover default content
+    $('.image-preview').popover({
+        trigger:'manual',
+        html:true,
+        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+        content: "There's no image",
+        placement:'bottom'
+    });
+    // Clear event
+    $('.image-preview-clear').click(function(){
+        $('.image-preview').attr("data-content","").popover('hide');
+        $('.image-preview-filename').val("");
+        $('.image-preview-clear').hide();
+        $('.image-preview-input input:file').val("");
+        $(".image-preview-input-title").text("<?=$this->lang->line('income_file_browse')?>"); 
+    }); 
+    // Create the preview image
+    $(".image-preview-input input:file").change(function (){     
+        var img = $('<img/>', {
+            id: 'dynamic',
+            width:250,
+            height:200,
+            overflow:'hidden'
+        });      
+        var file = this.files[0];
+        var reader = new FileReader();
+        // Set preview image into the popover data-content
+        reader.onload = function (e) {
+            $(".image-preview-input-title").text("<?=$this->lang->line('income_file_browse')?>");
+            $(".image-preview-clear").show();
+            $(".image-preview-filename").val(file.name);
+        }        
+        reader.readAsDataURL(file);
+    });  
+});
+
+</script>
