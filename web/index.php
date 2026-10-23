@@ -10,8 +10,8 @@ include("inc/nav.php");
     <section class="hero" aria-roledescription="carousel" aria-label="Highlights" data-hero>
         <div class="hero__slides">
             <?php foreach ($heroSlides as $i => $slide) { ?>
-                <article class="hero__slide<?= $i === 0 ? ' is-active' : '' ?>" aria-roledescription="slide" aria-label="<?= $i + 1 ?> of <?= count($heroSlides) ?>"<?= $i === 0 ? '' : ' aria-hidden="true"' ?> data-hero-slide>
-                    <img class="hero__img" src="<?= e($slide['image']) ?>" alt="" <?= $i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
+                <article class="hero__slide<?= isset($slide['layout']) ? ' hero__slide--' . e($slide['layout']) : '' ?><?= $i === 0 ? ' is-active' : '' ?>" aria-roledescription="slide" aria-label="<?= $i + 1 ?> of <?= count($heroSlides) ?>"<?= $i === 0 ? '' : ' aria-hidden="true"' ?> data-hero-slide>
+                    <img class="hero__img" src="<?= e($slide['image']) ?>"<?= isset($slide['position']) ? ' style="object-position: ' . e($slide['position']) . '"' : '' ?> alt="" <?= $i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
                     <div class="container hero__content">
                         <span class="eyebrow eyebrow--light"><i class="ri-government-line" aria-hidden="true"></i> Est. <?= e($school['founded']) ?> &middot; <?= e($school['place']) ?></span>
                         <?php if ($i === 0) { ?>

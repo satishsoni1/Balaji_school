@@ -49,19 +49,20 @@
                     <tbody>
                         
                         
+                        <!-- Board and Medium sit on the left so the right side stays clear for the stamp on the photo. -->
                         <tr>
-                            <td class="left-text  f-10">
+                            <td class="left-text  f-10" colspan="2">
                                 Office Mob No - 7058262082 , 9763757391 (H .M )
                             </td>
-                            <td class="right-text f-10">Board - Amravati</td>
                         </tr>
                         <tr>
-                            <td class="left-text f-10">Email - balajiconvent95@gmail.com</td>
-                            <td class="right-text f-10">Medium - English</td>
+                            <td class="left-text f-10" colspan="2">Email - balajiconvent95@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td class="left-text f-10" colspan="2">Board - Amravati &nbsp;&nbsp;|&nbsp;&nbsp; Medium - English</td>
                         </tr>
                         <tr>
                             <td class="left-text f-10" colspan="2">School Permission No. : V.L.S.-1004 (532/04) 12-08-2004</td>
-                            
                         </tr>
                         
                     </tbody>

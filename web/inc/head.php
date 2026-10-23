@@ -17,7 +17,7 @@ $activePage      = isset($activePage) ? $activePage : 'home';
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e($pageDescription) ?>">
-    <meta property="og:image" content="assets/images/opt/campus.jpg">
+    <meta property="og:image" content="assets/images/opt/hero-school.jpg">
 
     <link rel="icon" type="image/png" href="assets/images/logo_shri2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">

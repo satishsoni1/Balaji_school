@@ -569,3 +569,26 @@ body.no-scroll { overflow: hidden; }
     .site-popup__body { padding: 22px 20px 24px; }
     .site-popup__actions .btn { flex: 1; }
 }
+
+/* ---------- Hero: split slide (photo right, text on maroon panel left) ---------- */
+@media (min-width: 1024px) {
+    .hero__slide--split .hero__img { left: 38%; width: 62%; }
+    .hero__slide--split::before {
+        background:
+            linear-gradient(90deg, var(--maroon-900) 0%, var(--maroon-900) 38%, rgba(63, 13, 19, .55) 44%, rgba(63, 13, 19, 0) 56%),
+            linear-gradient(0deg, rgba(31, 8, 10, .6) 0%, rgba(31, 8, 10, 0) 28%);
+    }
+    .hero__slide--split .hero__content > * { max-width: 430px; }
+    .hero__slide--split .hero__title { font-size: clamp(2.1rem, 3.4vw, 3.1rem); }
+}
+@media (max-width: 1023px) {
+    /* Stack: photo on the top half, text on the maroon area below, so the school sign stays visible. */
+    .hero:has(.hero__slide--split) { min-height: 780px; }
+    .hero__slide--split { align-items: flex-end; }
+    .hero__slide--split .hero__img { height: 44%; }
+    .hero__slide--split::before { background: linear-gradient(0deg, var(--maroon-900) 0%, var(--maroon-900) 56%, rgba(63, 13, 19, .4) 59%, rgba(63, 13, 19, 0) 64%); }
+    .hero__slide--split .hero__content { padding-top: 0; padding-bottom: 92px; }
+}
+@media (max-width: 640px) {
+    .hero__slide--split .hero__text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+}

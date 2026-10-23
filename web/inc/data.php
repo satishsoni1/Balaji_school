@@ -29,9 +29,17 @@ $contact = [
 
 $heroSlides = [
     [
+        'image'    => 'assets/images/opt/hero-school.jpg',
+        'position' => 'center 30%',
+        'layout'   => 'split',
+        'title'    => 'Explore your potential & talents at Shri Balaji School',
+        'text'     => 'Shri Balaji School is committed to providing world-class education that will enable our students to succeed in their chosen fields. We offer a wide range of programs that cater to the unique needs and interests of our students.',
+        'tag'      => 'Our school',
+    ],
+    [
         'image' => 'assets/images/opt/hero-2.jpg',
-        'title' => 'Explore your potential & talents at Shri Balaji School',
-        'text'  => 'Shri Balaji School is committed to providing world-class education that will enable our students to succeed in their chosen fields. We offer a wide range of programs that cater to the unique needs and interests of our students.',
+        'title' => 'Nursery to 10th — full English medium education',
+        'text'  => 'A spacious building with 30 rooms, a free computer lab, a digital classroom and a large playground, with trained, well educated and experienced teachers.',
         'tag'   => 'Morning assembly',
     ],
     [
