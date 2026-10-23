@@ -39,8 +39,8 @@
                                 <td colspan=2><?= $student->registerNO ?></td>
                             </tr>
                         <tr>
-                                <td width="250px">STUDENT ID NO</td>
-                                <td colspan=2><?= $student->student_id ?></td>
+                                <td width="250px">PEN NO</td>
+                                <td colspan=2><?= isset($student->pen_no) ? htmlspecialchars($student->pen_no) : '' ?></td>
                             </tr>
                             <tr>
                                 <td width="250px">UID NO (AADHAR NO)</td>

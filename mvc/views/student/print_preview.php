@@ -45,8 +45,8 @@
 							<td>:-&nbsp;&nbsp;&nbsp; <?=$student->student_type?></td>
 						</tr>
 						<tr>
-							<td>Students ID </td>
-							<td>:-&nbsp;&nbsp;&nbsp; <?=$student->student_id?></td>
+							<td>PEN No. </td>
+							<td>:-&nbsp;&nbsp;&nbsp; <?=isset($student->pen_no) ? htmlspecialchars($student->pen_no) : ''?></td>
 							<td>Aadhar Card No </td>
 							<td>:-&nbsp;&nbsp;&nbsp; <?=$student->aadhar_card?></td>
 						</tr>
