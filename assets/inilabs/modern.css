@@ -382,6 +382,20 @@ select.form-control[multiple] option, select.form-control[size] option { padding
 .dropdown-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--p-muted); padding: 6px 12px; }
 div.dt-button-collection { border-radius: 12px !important; padding: 6px !important; box-shadow: 0 18px 40px -16px rgba(31, 26, 28, .3) !important; border: 1px solid var(--p-line) !important; }
 div.dt-button-collection .dt-button { display: block; width: 100%; margin: 0 0 4px !important; text-align: left; }
+/* Column visibility: show a checkbox so visible (active) and hidden columns are distinguishable */
+div.dt-button-collection .dt-button.buttons-columnVisibility { position: relative; padding-left: 36px !important; color: var(--p-muted) !important; font-weight: 500; }
+div.dt-button-collection .dt-button.buttons-columnVisibility::before {
+    content: ""; position: absolute; left: 12px; top: 50%; width: 16px; height: 16px; margin-top: -8px;
+    border: 1.5px solid #cfc6bf; border-radius: 4px; background: #fff; box-sizing: border-box;
+}
+div.dt-button-collection .dt-button.buttons-columnVisibility.active { background: var(--p-brand-50) !important; border-color: var(--p-brand) !important; color: var(--p-brand) !important; font-weight: 600; }
+div.dt-button-collection .dt-button.buttons-columnVisibility.active::before { background: var(--p-brand); border-color: var(--p-brand); }
+div.dt-button-collection .dt-button.buttons-columnVisibility.active::after {
+    content: ""; position: absolute; left: 17px; top: 50%; width: 5px; height: 9px; margin-top: -6px;
+    border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+div.dt-button-collection .dt-button.buttons-columnVisibility:hover { background: var(--p-line-soft) !important; color: var(--p-text) !important; border-color: var(--p-line) !important; }
+div.dt-button-collection .dt-button.buttons-columnVisibility.active:hover { background: var(--p-brand-50) !important; color: var(--p-brand) !important; border-color: var(--p-brand) !important; }
 
 .input-group-addon { border-color: #ddd5ce !important; background: var(--p-line-soft) !important; border-radius: 10px; color: var(--p-muted); }
 .input-group .form-control:first-child { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
