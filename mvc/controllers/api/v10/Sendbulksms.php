@@ -24,11 +24,32 @@ class Sendbulksms extends Api_Controller
 		$retval = 1;
         $usertypeID = 3;
         $getway = "clickatell";
-        $message = 'Dear [name], "Wish you many happy returns of the day. May God bless you with health, wealth and prosperity in your life. Happy Birthday to You!" Regards, SBESCH';
+        $message = "Dear [name] , on behalf of Shri Balaji Yuvak Krida Mandal, we wish you a very Happy Birthday. May God bless you with good health, happiness and prosperity. This greeting is being sent as part of our member communication.
+
+Regards,
+Shri Balaji Yuvak Krida Mandal";
+        // Skip if birthday SMS were already sent today (cron re-run)
+        $alreadySent = $this->db->where('type', 'sms')
+            ->where('message', $message)
+            ->where('DATE(create_date)', date('Y-m-d'))
+            ->count_all_results('mailandsms');
+        if ($alreadySent) {
+            $this->response([
+                'status'    => true,
+                'message'   => 'Already sent today'
+            ], REST_Controller::HTTP_OK);
+        }
+
         $multiSchoolYearStudents = $this->studentrelation_m->general_get_student_birthday(TRUE);
         //var_dump($multiSchoolYearStudents);die;
         if (customCompute($multiSchoolYearStudents)) {
+            $sentStudentIDs = [];
             foreach ($multiSchoolYearStudents as $key => $multiSchoolYearStudent) {
+                // studentrelation has one row per school year, so send only once per student
+                if (isset($sentStudentIDs[$multiSchoolYearStudent->srstudentID])) {
+                    continue;
+                }
+                $sentStudentIDs[$multiSchoolYearStudent->srstudentID] = TRUE;
 
                 $status = $this->userConfigSMS($message, $multiSchoolYearStudent, $usertypeID, $getway, $multiSchoolYearStudent->srschoolyearID);
                 $countusers .= $multiSchoolYearStudent->srname . ' ,';

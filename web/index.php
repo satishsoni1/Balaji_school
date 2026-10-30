@@ -79,7 +79,7 @@ include("inc/nav.php");
     <section class="section section--tint" id="about">
         <div class="container about">
             <div class="about__media reveal">
-                <img src="assets/images/opt/campus.jpg" alt="Shri Balaji English Primary & Secondary School building, Wadegaon" loading="lazy">
+                <img src="assets/images/opt/hero-school.jpg" alt="Shri Balaji English Primary & Secondary School building, Wadegaon" loading="lazy">
                 <div class="about__badge">
                     <strong><?= e($school['founded']) ?></strong>
                     <span>Founded by<br><?= e($school['trust']) ?></span>
