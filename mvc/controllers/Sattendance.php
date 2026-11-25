@@ -540,16 +540,22 @@ class Sattendance extends Admin_Controller {
 		$mailandsmstemplate = $this->mailandsmstemplate_m->get_mailandsmstemplate($templateID);
 		$objStudents = pluck($this->studentrelation_m->get_order_by_student(array('srschoolyearID' => $schoolyearID, 'srclassesID' => $classesID, 'srsectionID' => $sectionID), TRUE),'obj','srstudentID');
 
-		$parents = pluck($this->student_m->get_student(),'phone','studentID');
+		$parents = pluck($this->parents_m->get_parents(),'phone','parentsID');
 
 		foreach($students as $student) {
 			$studentID = $student->studentID;
 			$user = isset($objStudents[$studentID]) ? $objStudents[$studentID] : [];
-			$parentsID = isset($objStudents[$studentID]) ? $objStudents[$studentID]->parentID : 0;
-			$parentsPhonenumber = isset($parents[$studentID]) ? $parents[$studentID] : '';
-			// $parentsPhonenumber = $student->phone;
-			if(customCompute($user) && $parentsID > 0 && $parentsPhonenumber != '') {
-				$user->phone = $parentsPhonenumber;
+			if(!customCompute($user)) {
+				continue;
+			}
+			// Use the mobile number saved on the student's admission; fall back to the
+			// linked parent's number. A linked parent account is not required.
+			$phone = trim((string) $user->phone);
+			if($phone == '' && $user->parentID > 0 && isset($parents[$user->parentID])) {
+				$phone = trim((string) $parents[$user->parentID]);
+			}
+			if($phone != '') {
+				$user->phone = $phone;
 				$message = $mailandsmstemplate->template;
 				$this->userConfigSMS($message, $user, 3, $attendance_smsgateway, $schoolyearID);
 			}

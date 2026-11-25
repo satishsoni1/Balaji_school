@@ -1109,7 +1109,15 @@ public function photoupload() {
 		if($field_name == "phone"){
 			$this->student_m->update_student(array($field_name=>$value), $studentID);
 		}else{
-			$this->studentrelation_m->update_studentrelation(array("sr".$field_name=>$value), $studentID);	
+			$this->studentrelation_m->update_studentrelation(array("sr".$field_name=>$value), $studentID);
+			// Keep the student table in sync, otherwise screens that read student.roll
+			// (attendance, marks, etc.) show the old roll number.
+			if(in_array($field_name, array('roll', 'registerNO', 'name'))) {
+				$relation = $this->studentrelation_m->get_single_studentrelation(array('studentrelationID' => $studentID));
+				if(customCompute($relation) && $relation->srschoolyearID == $this->session->userdata('defaultschoolyearID')) {
+					$this->student_m->update_student(array($field_name => $value), $relation->srstudentID);
+				}
+			}
 		}
 		//var_dump($this->db->last_query());die;
 		$this->session->set_flashdata('success', $this->lang->line('menu_success'));

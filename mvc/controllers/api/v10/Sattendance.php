@@ -843,10 +843,17 @@ class Sattendance extends Api_Controller
 		foreach($students as $student) {
 			$studentID = $student->studentID;
 			$user = isset($objStudents[$studentID]) ? $objStudents[$studentID] : [];
-			$parentsID = isset($objStudents[$studentID]) ? $objStudents[$studentID]->parentID : 0;
-			$parentsPhonenumber = isset($parents[$parentsID]) ? $parents[$parentsID] : '';
-			if(customCompute($user) && $parentsID > 0 && $parentsPhonenumber != '') {
-				$user->phone = $parentsPhonenumber;
+			if(!customCompute($user)) {
+				continue;
+			}
+			// Same rule as the web panel: student's admission mobile first, then the
+			// linked parent's number. A linked parent account is not required.
+			$phone = trim((string) $user->phone);
+			if($phone == '' && $user->parentID > 0 && isset($parents[$user->parentID])) {
+				$phone = trim((string) $parents[$user->parentID]);
+			}
+			if($phone != '') {
+				$user->phone = $phone;
 				$message = $mailandsmstemplate->template;
 				$this->userConfigSMS($message, $user, 3, $attendance_smsgateway, $schoolyearID);
 			}

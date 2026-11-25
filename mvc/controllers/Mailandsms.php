@@ -314,7 +314,7 @@ class Mailandsms extends Admin_Controller
 						$teacherID = $this->input->post('email_users');
 						if ($teacherID == 'select') {
 							$message = $this->input->post('email_message');
-							$multiteachers = $this->teacher_m->general_get_teacher();
+							$multiteachers = $this->teacher_m->general_get_order_by_teacher(array("active" => 1));
 							if (customCompute($multiteachers)) {
 								$countusers = '';
 								foreach ($multiteachers as $key => $multiteacher) {
@@ -339,7 +339,7 @@ class Mailandsms extends Admin_Controller
 							}
 						} else {
 							$message = $this->input->post('email_message');
-							$singleteacher = $this->teacher_m->general_get_teacher($teacherID);
+							$singleteacher = $this->teacher_m->general_get_single_teacher(array("teacherID" => $teacherID, "active" => 1));
 							if (customCompute($singleteacher)) {
 								$this->userConfigEmail($message, $singleteacher, $usertypeID);
 								$array = array(
@@ -681,7 +681,7 @@ class Mailandsms extends Admin_Controller
 						$teacherID = $this->input->post('sms_users');
 						if ($teacherID == 'select') {
 							$message = $this->input->post('sms_message');
-							$multiteachers = $this->teacher_m->general_get_teacher();
+							$multiteachers = $this->teacher_m->general_get_order_by_teacher(array("active" => 1));
 							if (customCompute($multiteachers)) {
 								$countusers = '';
 								$retval = 1;
@@ -721,7 +721,7 @@ class Mailandsms extends Admin_Controller
 							$retval = 1;
 							$retmess = '';
 							$message = $this->input->post('sms_message');
-							$singleteacher = $this->teacher_m->general_get_teacher($teacherID);
+							$singleteacher = $this->teacher_m->general_get_single_teacher(array("teacherID" => $teacherID, "active" => 1));
 							if (customCompute($singleteacher)) {
 								$status = $this->userConfigSMS($message, $singleteacher, $usertypeID, $getway);
 								if ($status['check'] == FALSE) {

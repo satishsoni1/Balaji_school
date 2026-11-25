@@ -6,7 +6,7 @@
 
 <body>
 
-    <table width="100%" class="testimonial">
+    <table width="100%" class="testimonial" autosize="3" style="page-break-inside:avoid">
         <tr>
             <td>
                 <table width="100%">

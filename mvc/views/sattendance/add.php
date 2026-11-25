@@ -196,7 +196,7 @@
                                         <?php echo $student->email; ?>
                                     </td>
                                     <td data-title="<?=$this->lang->line('attendance_roll')?>">
-                                        <?php echo $student->roll; ?>
+                                        <?php echo $student->srroll; ?>
                                     </td>
                                     <td class="studentID" data-studentid="<?=$student->studentID?>" data-title="<?=$this->lang->line('attendance_attendance')?>">
                                         <?php
